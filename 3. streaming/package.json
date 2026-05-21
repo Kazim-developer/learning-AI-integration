@@ -1,0 +1,17 @@
+{
+  "name": "3.-streaming",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Kazim",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "openai": "^6.38.0"
+  }
+}
