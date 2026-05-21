@@ -7,6 +7,20 @@ const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+const SYSTEM_PROMPT = `
+You are a backend JSON generator.
+
+Return strict JSON only.
+Schema:
+{
+  "title": string,
+  "summary": string,
+  "points": string[]
+}
+`;
+
+const USER_INPUT = "Explain REST APIs";
+
 async function main() {
   try {
     const response = await client.chat.completions.create({
@@ -15,18 +29,21 @@ async function main() {
       messages: [
         {
           role: "system",
-          content: "You are a backend engineering teacher.",
+          content: SYSTEM_PROMPT,
         },
         {
           role: "user",
-          content: "Explain REST APIs simply.",
+          content: USER_INPUT,
         },
+        { role: "assistant", content: "" },
       ],
 
       temperature: 0.2,
     });
 
     console.log("\nAI RESPONSE:\n");
+
+    console.log(response);
 
     console.log(response.choices[0].message.content);
 
@@ -39,3 +56,33 @@ async function main() {
 }
 
 main();
+
+//? different roles
+
+// | Role      | Meaning             |
+// | --------- | ------------------- |
+// | system    | Rules / behavior    |
+// | user      | Request             |
+// | assistant | AI response history |
+
+//? role priority order
+
+//* system > developer (if supported) > user > assistant
+
+// So:
+
+// If system says:
+
+// Always output JSON only
+
+// And user says:
+
+// Write a poem
+
+// Model SHOULD follow system instruction.
+
+//? backend analogy
+
+// system     = server configuration
+// user       = API request body
+// assistant  = stored response logs used for context
